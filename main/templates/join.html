@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{% block contents %}
+<script>
+
+
+function CheckForm() {
+    if($.trim($("#name").val()) == "") {
+        alert("이름을 입력하세요.");
+        $("#name").focus();
+        return false;
+    }
+    if(!validateEmail($("#email").val())) {
+        alert("이메일 유효성이 올바르지 않습니다.");
+        $("#email").focus();
+        return false;
+    }
+
+    if($.trim($("#pass").val()) != $.trim($("#pass2").val())) {
+        alert("비밀번호가 일치하지 않습니다.");
+        $("#pass2").focus().select();
+        return false;
+    }
+    if($.trim($("#pass").val()) == $.trim($("#pass2").val())) {
+        return true;
+    }    
+    
+
+    
+    
+}
+</script>
+
+<form name="form" action="{{url_for('member.member_join')}}" method="POST" onsubmit="return CheckForm();">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" class="form-control" id="name" name="name">
+    </div>
+    <div class="form-group">
+        <label for="email">이메일</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="이메일 주소를 입력하세요...">
+    </div>
+    <div class="form-group">
+        <label for="pass">비밀번호</label>
+        <input type="password" class="form-control" name="pass" id="pass">
+    </div>
+    <div class="form-group">
+        <label for="pass2">비밀번호 확인</label>
+        <input type="password" class="form-control" name="pass2" id="pass2">
+    </div>
+    <div class="text-center"><input class="btn btn-primary" type="submit" value="가입하기"></div>
+</form>
+
+{% endblock %}
+
+
